@@ -1,0 +1,35 @@
+﻿@model IEnumerable<FatturaSubito.Models.AliquotaIVA>
+@{
+    ViewBag.Title = "AliquoteIVA";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>AliquoteIVA</h2>
+<div>
+    @Html.ActionLink("Aggiungi Nuova Aliquota", "AggiungiAliquotaIVA", "Amministrazione", new { @class = "btn btn-primary" })
+</div>
+
+<div class="table-responsive">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Descrizione</th>
+                <th>Valore Percentuale</th>
+                <th>Modifica</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var aliquota in Model)
+            {
+                <tr>
+                    <td>@aliquota.Descrizione</td>
+                    <td>@aliquota.ValorePercentuale %</td>
+                    <td>
+                        @Html.ActionLink("Modifica", "ModificaAliquotaIVA", "Amministrazione", new { id = aliquota.AliquotaIVAId }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

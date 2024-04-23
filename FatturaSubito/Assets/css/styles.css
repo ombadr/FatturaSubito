@@ -1,0 +1,14 @@
+﻿.form-tablet-mobile {
+    display: none;
+}
+
+@media (max-width: 850px)
+{
+    .form-desktop {
+        display: none;
+    }
+    .form-tablet-mobile {
+        display: block;
+    }
+}
+

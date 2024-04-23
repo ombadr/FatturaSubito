@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - FatturaSubito</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Assets/css/app.css")
+    @Styles.Render("~/Assets/css/styles.css")
+    @RenderSection("Styles", required: false)
+
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="@Url.Content("~/Assets/img/icons/icon-48x48.png")" />
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary py-0">
+        <div class="container">
+            @Html.ActionLink("FatturaSubito", "Index", "Home", new { area = "" }, new { @class = "navbar-brand fw-bold fs-1" })
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    @*@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Amministrazione
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Gestione Utenti", "GestioneUtenti", "Amministrazione", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                    <li>@Html.ActionLink("Report", "Amministrazione", "Report", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                    <li>@Html.ActionLink("Aliquote IVA", "AliquoteIVA", "Amministrazione", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Profilo
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Il Mio Profilo", "Index", "Profilo", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                    <li>@Html.ActionLink("Modifica Profilo", "Modifica", "Profilo", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                </ul>
+                            </li>
+
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Clienti
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Lista Clienti", "Index", "Clienti", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                    <li>@Html.ActionLink("Aggiungi Clienti", "Aggiungi", "Clienti", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Fornitori
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Lista Fornitori", "Index", "Fornitori", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                    <li>@Html.ActionLink("Aggiungi Fornitori", "Aggiungi", "Fornitori", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Fatture di Vendita
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Lista Fatture di Vendita", "Index", "FattureVendita", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                    <li>@Html.ActionLink("Aggiungi Fatture di Vendita", "Aggiungi", "FattureVendita", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Fatture di Acquisto
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Lista Fatture di Acquisto", "Index", "FattureAcquisto", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                    <li>@Html.ActionLink("Aggiungi Fatture di Acquisto", "Aggiungi", "FattureAcquisto", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Fatture Proforma
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Lista Fatture Proforma", "Index", "FattureProforma", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                    <li>@Html.ActionLink("Aggiungi Fatture Proforma", "Aggiungi", "FattureProforma", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Preventivi
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Lista Preventivi", "Index", "Preventivi", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                    <li>@Html.ActionLink("Aggiungi Preventivi", "Aggiungi", "Preventivi", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Documenti di Trasporto
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Lista Documenti di Trasporto", "Index", "DocumentiTrasporto", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                    <li>@Html.ActionLink("Aggiungi Documenti di Trasporto", "Aggiungi", "DocumentiTrasporto", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Cestino
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Documenti Cestinati", "Index", "Cestino", new { area = "" }, new { @class = "dropdown-item text-custom" })</li>
+                                </ul>
+                            </li>
+                            <li>@Html.ActionLink("Report", "Index", "Report", new { area = "" }, new { @class = "nav-link" })</li>
+                        }*@
+                </ul>
+
+                <div>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a href="@Url.Action("Login", "Auth", new { area = "" })" class="btn btn-success">Login</a>
+                        <a href="@Url.Action("Registrazione", "Auth", new { area = "" })" class="btn btn-outline-light">Registrati</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Report", new { area = "" })" class="btn btn-outline-light">Entra</a>
+                        <form action="@Url.Action("Logout", "Auth")" method="post" style="display: inline;">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-success">Logout</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Fattura Subito</p>
+        </footer>
+    </div>
+
+    <script src="~/Assets/js/app.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var dropdownToggleList = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'));
+            dropdownToggleList.forEach(function (dropdownToggleEl) {
+                new bootstrap.Dropdown(dropdownToggleEl);
+            });
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,119 @@
+﻿@model FatturaSubito.Models.RegistrazioneViewModel
+@{
+    ViewBag.Title = "Registrazione";
+    Layout = "~/Views/Shared/_LoginRegistrazioneLayout.cshtml";
+}
+
+<main class="d-flex w-100">
+    <div class="container d-flex flex-column">
+        <div class="row vh-100">
+            <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100">
+                <div class="d-table-cell align-middle">
+
+                    <div class="text-center mt-4">
+                        <h1 class="h2">Benvenuto!</h1>
+                        <p class="lead">
+                            Registrati per continuare
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="m-sm-3">
+                                @using (Html.BeginForm("Registrazione", "Auth", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.Nome, new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", placeholder = "Inserisci il tuo nome" })
+                                        @Html.ValidationMessageFor(model => model.Nome, "", new {@class = "text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.Cognome, new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.Cognome, new { @class = "form-control", placeholder = "Inserisci il tuo cognome" })
+                                        @Html.ValidationMessageFor(model => model.Cognome, "", new {@class = "text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.NomeAzienda, new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.NomeAzienda, new { @class = "form-control", placeholder = "Inserisci il nome dell'azienda" })
+                                        @Html.ValidationMessageFor(model => model.NomeAzienda, "", new {@class = "text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.PartitaIVA, new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.PartitaIVA, new { @class = "form-control", placeholder = "Inserisci la partita IVA" })
+                                        @Html.ValidationMessageFor(model => model.PartitaIVA, "", new {@class ="text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.CodiceFiscale, new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.CodiceFiscale, new { @class = "form-control", placeholder = "Inserisci il codice fiscale" })
+                                        @Html.ValidationMessageFor(model => model.CodiceFiscale, "", new {@class ="text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Inserisci la tua email" })
+                                        @Html.ValidationMessageFor(model => model.Email,"", new {@class = "text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Inserisci la tua password" })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new {@class ="text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.ConfermaPassword, new { @class = "form-label" })
+                                        @Html.PasswordFor(m => m.ConfermaPassword, new { @class = "form-control", placeholder = "Conferma la tua password" })
+                                        @Html.ValidationMessageFor(model => model.ConfermaPassword, "", new {@class ="text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.Indirizzo, new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.Indirizzo, new { @class = "form-control", placeholder = "Inserisci l'indirizzo" })
+                                        @Html.ValidationMessageFor(model => model.Indirizzo, "", new {@class ="text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.Comune, new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.Comune, new { @class = "form-control", placeholder = "Inserisci il comune" })
+                                        @Html.ValidationMessageFor(model => model.Comune, "", new {@class ="text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.Provincia, new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.Provincia, new { @class = "form-control", placeholder = "Inserisci la provincia" })
+                                        @Html.ValidationMessageFor(model => model.Provincia, "", new {@class ="text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.CAP, new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.CAP, new { @class = "form-control", placeholder = "Inserisci il CAP" })
+                                        @Html.ValidationMessageFor(model => model.CAP, "", new {@class ="text-danger"})
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(m => m.Logo)
+                                        <input type="file" name="Logo" class="form-control" />
+                                        @Html.ValidationMessageFor(m => m.Logo, "", new {@class ="text-danger"})
+                                    </div>
+                                  
+                                    <div class="d-grid gap-2 mt-3">
+                                        <button type="submit" class="btn btn-lg btn-primary">Registrati</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mb-3">
+                        Hai già un'account? <a href="@Url.Action("Login", "Auth")">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

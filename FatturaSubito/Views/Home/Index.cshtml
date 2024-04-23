@@ -1,0 +1,76 @@
+﻿<main>
+    <div class="text-center mb-5">
+        <h1 class="text-center fw-bold mt-5 mb-2" style="font-size: 60px;">Fatture Illimitate Gratis per Sempre</h1>
+        <h2 class="text-center fw-light mb-4" style="font-size: 30px;">Crea fatture e preventivi illimitati per te e per i tuoi clienti</h2>
+        <a href="@Url.Action("Registrazione", "Auth", new { area = "" })" class="btn btn-primary fw-bold desktop-btn" style="padding: 30px 20px; font-size: 25px;">CREA ORA LA TUA FATTURA</a>
+        <a href="@Url.Action("Registrazione", "Auth", new { area = "" })" class="btn btn-primary fw-bold mobile-btn mx-3" style="padding: 20px 10px; font-size: 15px;">CREA ORA LA TUA FATTURA</a>
+    </div>
+
+    <div class="text-center mb-5">
+        <img class="mb-3 desktop-image" src="@Url.Content("~/Assets/img/photos/fattura_subito_mockup_d.png")" height="500" />
+        <div class="d-flex justify-content-center">
+
+        <img class="mb-3 mobile-image" src="@Url.Content("~/Assets/img/photos/mobile_website.png")" width="380" />
+        </div>
+        <h2 class="fw-bold">
+            È incredibilmente facile creare fatture e preventivi, farsi pagare e rimanere organizzati.
+        </h2>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4 text-center">
+                <img class="mb-3" src="https://assets-global.website-files.com/609d5d3c4d120e9c52e52b07/609d5d3c4d120e63a4e52b61_tap.png" height="100" />
+                <h2 class="fw-bold">Incredibilmente facile</h2>
+                <p>Crea, gestisci e invia facilmente fatture e preventivi.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img class="mb-3" src="https://assets-global.website-files.com/609d5d3c4d120e9c52e52b07/609d5d3c4d120e6c93e52b62_love.png" )" height="100" />
+                <h2 class="fw-bold">Clienti soddisfatti</h2>
+                <p>Processo di pagamento chiaro e semplice per i vostri clienti.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img class="mb-3" src="https://assets-global.website-files.com/609d5d3c4d120e9c52e52b07/609d5d3c4d120efd79e52b63_invoice.png" height="100" />
+                <h2 class="fw-bold">Professionale</h2>
+                <p>Aggiungi il tuo logo aziendale sul documento.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <h1 class="text-center fw-bold" style="font-size: 50px;">Sei pronto a farti pagare?</h1>
+        <h2 class="text-center fw-light mb-4" style="font-size: 30px;">Ottieni l'accesso illimitato 100% gratuito</h2>
+        <a href="@Url.Action("Registrazione", "Auth", new { area = "" })" class="btn btn-primary fw-bold mb-3 desktop-btn" style="padding: 30px 20px; font-size: 25px;">INIZIA ORA</a>
+        <a href="@Url.Action("Registrazione", "Auth", new { area = "" })" class="btn btn-primary fw-bold mb-3 mobile-btn mx-3" style="padding: 20px 10px; font-size: 15px;">INIZIA ORA</a>
+
+        <h2 class="fw-light"><i class="align-middle me-1" data-feather="check-circle"></i>Fatture Illimitate</h2>
+        <h2 class="fw-light"><i class="align-middle me-1" data-feather="check-circle"></i>Preventivi Illimitati</h2>
+        <h2 class="fw-light"><i class="align-middle me-1" data-feather="check-circle"></i>Clienti Illimitati</h2>
+        <h2 class="fw-light"><i class="align-middle me-1" data-feather="check-circle"></i>Fornitori Illimitati</h2>
+        <h2 class="fw-light"><i class="align-middle me-1" data-feather="check-circle"></i>Download Documenti Gratuito</h2>
+        <h2 class="fw-light"><i class="align-middle me-1" data-feather="check-circle"></i>Invio Documenti per Email Gratuito</h2>
+        <h2 class="fw-light"><i class="align-middle me-1" data-feather="check-circle"></i>Traccia I Tuoi Documenti</h2>
+
+
+    </div>
+</main>
+
+@section Styles {
+    <style>
+        @@media (max-width: 991px) {
+            .desktop-image, .desktop-btn {
+                display: none;
+            }
+        }
+
+        .mobile-image, .mobile-btn {
+            display: none;
+        }
+
+        @@media (max-width: 991px) {
+            .mobile-image, .mobile-btn {
+                display: block;
+            }
+        }
+    </style>
+}

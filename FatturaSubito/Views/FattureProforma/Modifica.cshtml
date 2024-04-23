@@ -1,0 +1,400 @@
+﻿@model FatturaSubito.Models.FatturaViewModel
+
+@{
+    ViewBag.Title = "Modifica Fattura di Vendita";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<main class="content p-0">
+    <div class="container-fluid p-0">
+        <div class="row justify-content-center">
+            @*-----MOBILE FORM-----*@
+            <div class="col-12 form-tablet-mobile pe-5">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Documento.DocumentoId)
+                    @Html.HiddenFor(model => model.Documento.Tipo)
+
+                    <div class="text-center mb-3">
+                        <a href="@Url.Action("ScaricaPdf", "FattureProforma", new { id = Model.Documento.DocumentoId })" class="btn btn-warning m-1">Scarica PDF</a>
+                        <a href="@Url.Action("InviaEmail", "FattureProforma", new { id = Model.Documento.DocumentoId })" class="btn btn-info m-1">Invia via Email al Cliente</a>
+                        <input type="submit" value="Salva Modifiche" class="btn btn-primary m-1" />
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <div class="mb-3">
+                            <h4 class="text-secondary">I miei dati:</h4>
+                            <p class="m-0">@Model.Utente.Nome @Model.Utente.Cognome</p>
+                            <p class="m-0">@Model.Utente.NomeAzienda</p>
+                            <p class="m-0">@Model.Utente.Indirizzo</p>
+                            <p class="m-0">@Model.Utente.CAP @Model.Utente.Comune @Model.Utente.Provincia</p>
+                            <p class="m-0">P.IVA: @Model.Utente.PartitaIVA</p>
+                            <p class="m-0">C.F.: @Model.Utente.CodiceFiscale</p>
+                        </div>
+                        <div>
+                            <img src="@Url.Content(@Model.Utente.Logo)" alt="User Logo" style="width: 150px;" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <h4 class="text-secondary">Fatturare a:</h4>
+                        <p class="m-0">@Model.Documento.Cliente.Nome @Model.Documento.Cliente.Cognome</p>
+                        <p class="m-0">@Model.Documento.Cliente.NomeAzienda</p>
+                        <p class="m-0">@Model.Documento.Cliente.Indirizzo</p>
+                        <p class="m-0">@Model.Documento.Cliente.CAP @Model.Documento.Cliente.Comune @Model.Documento.Cliente.Provincia</p>
+                        <p class="m-0">@Model.Documento.Cliente.PartitaIVA</p>
+                        <p class="m-0">@Model.Documento.Cliente.CodiceFiscale</p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Documento.Numero, "Numero Fattura", new { @class = "mb-2" })
+                        @Html.EditorFor(model => model.Documento.Numero, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Documento.Numero)
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Documento.Data, "Data Fattura", new { @class = "mb-2" })
+                        @Html.TextBoxFor(model => model.Documento.Data, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                        @Html.ValidationMessageFor(model => model.Documento.Data)
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(m => m.StatoSelezionato, "Stato Fattura", new { @class = "mb-3" })
+                        @Html.DropDownListFor(m => m.StatoSelezionato, ViewBag.StatoFatturaSelectList as IEnumerable<SelectListItem>, "Scegli uno stato", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.StatoSelezionato)
+                    </div>
+
+                    <input type="hidden" name="RigheEliminate" class="righeEliminate" value="" />
+
+                    <div id="containerRigheDocumento" class="mb-3">
+                        <h4 class="text-secondary">Righe Documento:</h4>
+                        @if (Model.RigheDocumento != null && Model.RigheDocumento.Any())
+                        {
+                            for (int i = 0; i < Model.RigheDocumento.Count; i++)
+                            {
+                                <div class="riga-documento mb-3">
+                                    <input type="hidden" name="RigheDocumento[i].RigaDocumentoId" value="@Model.RigheDocumento[i].RigaDocumentoId" />
+
+                                    <h3 class="text-secondary">Prodotto/servizio @(i + 1)</h3>
+                                    <div class="mb-2">
+                                        @Html.TextBoxFor(m => m.RigheDocumento[i].Descrizione, new { @class = "form-control", placeholder = "Descrizione" })
+                                    </div>
+                                    <div class="mb-2">
+                                        @Html.TextBoxFor(m => m.RigheDocumento[i].Quantita, new { @class = "form-control", placeholder = "Quantità", type = "number" })
+                                    </div>
+                                    <div class="mb-2">
+                                        @Html.TextBoxFor(m => m.RigheDocumento[i].PrezzoUnitario, new { @class = "form-control", placeholder = "Prezzo Unitario" })
+                                    </div>
+                                    <div class="mb-2">
+                                        @Html.DropDownListFor(
+                                        m => m.RigheDocumento[i].AliquotaIVAId,
+                                        new SelectList(ViewBag.AliquotaIVAId, "Value", "Text", Model.RigheDocumento[i].AliquotaIVAId),
+                                        htmlAttributes: new { @class = "form-control" }
+                                        )
+                                    </div>
+                                    <button type="button" class="btn btn-danger rimuoviRiga">Elimina</button>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <button type="button" class="btn btn-primary" id="aggiungiRigaMobile">Aggiungi Prodotto/Servizio</button>
+
+                    <div class="my-3 text-end">
+                        <h2 class="text-secondary">Totale: <span id="totaleDocumentoMobile">0</span> €</h2>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Documento.TerminiCondizioni, "Termini e Condizioni")
+                        @Html.TextAreaFor(model => model.Documento.TerminiCondizioni, new { @class = "form-control", rows = 3 })
+                        @Html.ValidationMessageFor(model => model.Documento.TerminiCondizioni)
+                    </div>
+
+                }
+            </div>
+
+            @*-----DESKTOP FORM-----*@
+
+            <div class="col-12 col-xxl-8 form-desktop">
+                @using (Html.BeginForm("Modifica", "FattureProforma", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Documento.DocumentoId)
+                    @Html.HiddenFor(model => model.Documento.Tipo)
+
+                    <div class="text-center mb-3">
+                        <a href="@Url.Action("ScaricaPdf", "FattureProforma", new { id = Model.Documento.DocumentoId })" class="btn btn-warning">Scarica PDF</a>
+                        <a href="@Url.Action("InviaEmail", "FattureProforma", new { id = Model.Documento.DocumentoId })" class="btn btn-info">Invia via Email al Cliente</a>
+                        <input type="submit" value="Salva Modifiche" class="btn btn-primary" />
+                    </div>
+                    <div class="card" style="width: 794px; height: 1123px; margin: auto;">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">FATTURA PROFORMA</h3>
+                        </div>
+                        <div class="card-body d-flex flex-column flex-grow-1">
+                            <div class="d-flex justify-content-between mb-5">
+                                <div>
+                                    <p class="m-0">@Model.Utente.Nome @Model.Utente.Cognome</p>
+                                    <p class="m-0">@Model.Utente.NomeAzienda</p>
+                                    <p class="m-0">@Model.Utente.Indirizzo</p>
+                                    <p class="m-0">@Model.Utente.CAP @Model.Utente.Comune @Model.Utente.Provincia</p>
+                                    <p class="m-0">P.IVA: @Model.Utente.PartitaIVA</p>
+                                    <p class="m-0">C.F.: @Model.Utente.CodiceFiscale</p>
+                                </div>
+                                <div class="me-5">
+                                    <img src="@Url.Content(@Model.Utente.Logo)" alt="User Logo" style="width: 150px;" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-5">
+
+                                <div>
+                                    <div class="form-group">
+                                        <p>Fatturare a:</p>
+                                        <p class="m-0">@Model.Documento.Cliente.Nome @Model.Documento.Cliente.Cognome</p>
+                                        <p class="m-0">@Model.Documento.Cliente.NomeAzienda</p>
+                                        <p class="m-0">@Model.Documento.Cliente.Indirizzo</p>
+                                        <p class="m-0">@Model.Documento.Cliente.CAP @Model.Documento.Cliente.Comune @Model.Documento.Cliente.Provincia</p>
+                                        <p class="m-0">@Model.Documento.Cliente.PartitaIVA</p>
+                                        <p class="m-0">@Model.Documento.Cliente.CodiceFiscale</p>
+                                    </div>
+
+                                </div>
+                                <div class="px-5 mt-5">
+
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(model => model.Documento.Numero, "Numero Fattura", new { @class = "mb-2" })
+                                        @Html.EditorFor(model => model.Documento.Numero, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Documento.Numero)
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Documento.Data, "Data Fattura", new { @class = "mb-2" })
+                                        @Html.TextBoxFor(model => model.Documento.Data, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                        @Html.ValidationMessageFor(model => model.Documento.Data)
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.StatoSelezionato, "Stato Fattura", new { @class = "mb-3" })
+                                        @Html.DropDownListFor(m => m.StatoSelezionato, ViewBag.StatoFatturaSelectList as IEnumerable<SelectListItem>, "Scegli uno stato", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.StatoSelezionato)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="RigheEliminate" class="righeEliminate" value="" />
+
+                            <div class="mb-5">
+                                <div class="table-responsive">
+
+
+                                    <table class="table" id="righeDocumentoTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Descrizione</th>
+                                                <th>Quantità</th>
+                                                <th>Prezzo Unitario</th>
+                                                <th>Aliquota IVA</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.RigheDocumento.Count; i++)
+                                            {
+                                                <tr>
+                                                    @Html.HiddenFor(m => m.RigheDocumento[i].RigaDocumentoId)
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.RigheDocumento[i].Descrizione, new { @class = "form-control" })
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.RigheDocumento[i].Quantita, new { @class = "form-control", type = "number", style = "width: 100px;" })
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.RigheDocumento[i].PrezzoUnitario, new { @class = "form-control", style = "width: 100px;" })
+                                                    </td>
+                                                    <td>
+
+                                                        @Html.DropDownListFor(
+                                            m => m.RigheDocumento[i].AliquotaIVAId,
+                                            new SelectList(ViewBag.AliquotaIVAId, "Value", "Text", Model.RigheDocumento[i].AliquotaIVAId),
+                                            htmlAttributes: new { @class = "form-control" }
+                                        )
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger rimuoviRiga">Elimina</button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="aggiungiRiga">Aggiungi Riga</button>
+                            </div>
+                            <div class="text-end mb-5">
+                                <h1 class="text-secondary">Totale: <span id="totaleDocumento">0</span> €</h1>
+                            </div>
+                            <div class="mt-auto">
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    @Html.LabelFor(model => model.Documento.TerminiCondizioni, "Termini e Condizioni")
+                                    @Html.TextAreaFor(model => model.Documento.TerminiCondizioni, new { @class = "form-control", rows = 5 })
+                                    @Html.ValidationMessageFor(model => model.Documento.TerminiCondizioni)
+                                </div>
+                                @*<p>
+            Il presente documento non costituisce fattura valida ai fini del DpR 633 26/10/1972 e successive modifiche. La fattura definitiva verrà emessa all’atto del pagamento del corrispettivo (articolo 6, comma 3, DpR 633/72).
+        </p>*@
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</main>
+
+
+@section Scripts {
+
+    <script>
+
+
+        function aggiornaTotaleMobile() {
+            var totaleGenerale = 0;
+            $('.riga-documento').each(function () {
+                var quantita = parseFloat($(this).find('input[name*="Quantita"]').val()) || 0;
+                var prezzoUnitario = parseFloat($(this).find('input[name*="PrezzoUnitario"]').val()) || 0;
+                var aliquotaIVAString = $(this).find('select[name*="AliquotaIVAId"] option:selected').text();
+                var matchIVA = aliquotaIVAString.match(/(\d+(?:\.\d+)?)%/);
+                var aliquotaIVA = matchIVA ? parseFloat(matchIVA[1]) : 0;
+                var totaleRiga = quantita * prezzoUnitario;
+                var importoIVA = totaleRiga * (aliquotaIVA / 100);
+                totaleGenerale += totaleRiga + importoIVA;
+            });
+            $('#totaleDocumentoMobile').text(totaleGenerale.toFixed(2));
+        }
+
+
+        $(document).ready(function () {
+            aggiornaTotaleMobile();
+            function updateRowIndices() {
+                $('.riga-documento').each(function (index) {
+                    $(this).find('input, select').each(function () {
+                        var name = $(this).attr('name');
+                        if (name) {
+                            var newName = name.replace(/\[\d+\]/, '[' + index + ']');
+                            $(this).attr('name', newName);
+                        }
+                    });
+                });
+            }
+
+            $('#aggiungiRigaMobile').click(function () {
+                var newIndex = $('.riga-documento').length;
+
+                var rigaHtml = `
+                                <div class="riga-documento mb-3">
+                                    <h3 class="text-secondary">Prodotto/servizio ${newIndex + 1}</h3>
+                                    <div class="mb-2">
+                                        <input type="text" name="RigheDocumento[${newIndex}].Descrizione" placeholder="Descrizione" class="form-control" />
+                                    </div>
+                                    <div class="mb-2">
+                                        <input type="number" name="RigheDocumento[${newIndex}].Quantita" placeholder="Quantità" class="form-control" />
+                                    </div>
+                                    <div class="mb-2">
+                                        <input type="text" name="RigheDocumento[${newIndex}].PrezzoUnitario" placeholder="Prezzo Unitario" class="form-control" />
+                                    </div>
+                                    <div class="mb-2">
+                                        <select name="RigheDocumento[${newIndex}].AliquotaIVAId" class="form-control">${aliquotaIVAOptions}</select>
+                                    </div>
+                                    <button type="button" class="btn btn-danger rimuoviRiga">Elimina</button>
+                                </div>`;
+                $('#containerRigheDocumento').append(rigaHtml);
+                updateRowIndices();
+                aggiornaTotaleMobile();
+            });
+
+            $('body').on('click', '.rimuoviRiga', function () {
+                $(this).closest('.riga-documento').remove();
+                updateRowIndices();
+                aggiornaTotaleMobile();
+            });
+
+            $('body').on('keyup change', '.riga-documento input, .riga-documento select', aggiornaTotaleMobile);
+        });
+
+               function aggiornaTotale() {
+           var totale = 0;
+           $('#righeDocumentoTable tbody tr').each(function () {
+               var quantita = parseFloat($(this).find('input[name*="Quantita"]').val()) || 0;
+               var prezzoUnitario = parseFloat($(this).find('input[name*="PrezzoUnitario"]').val()) || 0;
+               var aliquotaIVAString = $(this).find('select[name*="AliquotaIVAId"] option:selected').text();
+               var matchIVA = aliquotaIVAString.match(/(\d+(?:\.\d+)?)%/);
+               var aliquotaIVA = matchIVA ? parseFloat(matchIVA[1]) : 0;
+               var totaleRiga = quantita * prezzoUnitario;
+               var importoIVA = totaleRiga * (aliquotaIVA / 100);
+
+               totale += totaleRiga + importoIVA;
+           });
+           $('#totaleDocumento').text(totale.toFixed(2));
+       }
+
+       function aggiornaIndici() {
+           $('#righeDocumentoTable tbody tr').each(function (index) {
+               $(this).find('input, select').each(function () {
+                   var name = $(this).attr('name');
+                   if (name) {
+                       var newName = name.replace(/\[\d+\]/, '[' + index + ']');
+                       $(this).attr('name', newName);
+                   }
+               });
+           });
+       }
+
+        var aliquotaIVAOptions = '@Html.Raw(new SelectList(ViewBag.AliquotaIVAId, "Value", "Text").Select(option => $"<option value=\"{option.Value}\">{HttpUtility.HtmlEncode(option.Text)}</option>").Aggregate(string.Empty, (current, next) => current + next))';
+
+       $(document).ready(function () {
+           aggiornaTotale();
+
+           $('body').on('keyup change', 'input[name*="Quantita"], input[name*="PrezzoUnitario"], select[name*="AliquotaIVAId"]', function () {
+               aggiornaTotale();
+           });
+
+           $('body').on('click', '.rimuoviRiga', function () {
+               var rigaId = $(this).closest('tr').find('input[type=hidden]').val();
+               var righeEliminate = $('.righeEliminate').val();
+               if (righeEliminate) {
+                   righeEliminate += ',' + rigaId;
+               } else {
+                   righeEliminate = rigaId;
+               }
+               $('.righeEliminate').val(righeEliminate);
+               $(this).closest('tr').remove();
+               aggiornaIndici();
+               aggiornaTotale();
+           });
+
+           $('#aggiungiRiga').click(function () {
+               var rigaIndex = $('#righeDocumentoTable tbody tr').length;
+               var newRow = `<tr>
+    <td><input type="text" name="RigheDocumento[${rigaIndex}].Descrizione" class="form-control" /></td>
+    <td><input type="number" name="RigheDocumento[${rigaIndex}].Quantita" class="form-control" style="width: 100px" /></td>
+    <td><input type="text" name="RigheDocumento[${rigaIndex}].PrezzoUnitario" class="form-control" style="width: 100px" /></td>
+    <td><select name="RigheDocumento[${rigaIndex}].AliquotaIVAId" class="form-control">${aliquotaIVAOptions}</select></td>
+    <td><button type="button" class="btn btn-danger rimuoviRiga">Elimina</button></td>
+</tr>`;
+               $('#righeDocumentoTable tbody').append(newRow);
+               aggiornaIndici();
+               aggiornaTotale();
+           });
+
+       });
+
+
+
+    </script>
+
+}

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<FatturaSubito.Models.Fornitore>
+@{
+    ViewBag.Title = "Lista Fornitori";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Lista Fornitori</h2>
+
+<div class="table-responsive">
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Nome Azienda</th>
+                <th>Partita IVA</th>
+                <th>Codice Fiscale</th>
+                <th>Email</th>
+                <th>Indirizzo</th>
+                <th>Comune</th>
+                <th>Provincia</th>
+                <th>CAP</th>
+                <th>Modifica Fornitore</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var fornitore in Model)
+            {
+                <tr>
+                    <td>@fornitore.Nome</td>
+                    <td>@fornitore.Cognome</td>
+                    <td>@fornitore.NomeAzienda</td>
+                    <td>@fornitore.PartitaIVA</td>
+                    <td>@fornitore.CodiceFiscale</td>
+                    <td>@fornitore.Email</td>
+                    <td>@fornitore.Indirizzo</td>
+                    <td>@fornitore.Comune</td>
+                    <td>@fornitore.Provincia</td>
+                    <td>@fornitore.CAP</td>
+                    <td>
+                        @Html.ActionLink("Modifica", "Modifica", "Fornitori", new { id = fornitore.FornitoreId }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

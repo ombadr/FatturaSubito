@@ -1,0 +1,51 @@
+﻿@model IEnumerable<FatturaSubito.Models.DocumentoViewModel>
+@{
+    ViewBag.Title = "Lista Fatture di Acquisto";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Lista Fatture d'Acquisto</h2>
+
+<div class="table-responsive">
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Data</th>
+                <th>Nome Azienda</th>
+                <th>Email Cliente</th>
+                <th>Totale Fattura</th>
+                <th>Stato</th>
+                <th>Modifica Documento</th>
+                <th>Cestina Documento</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var documento in Model)
+            {
+
+                <tr>
+                    <td>@documento.Numero</td>
+                    <td>@documento.Data.ToShortDateString()</td>
+                    <td>@documento.NomeAzienda</td>
+                    <td>@documento.Email</td>
+                    <td>@String.Format("{0:C}", documento.TotaleDocumento)</td>
+                    <td>@documento.Stato</td>
+                    <td>
+                        @Html.ActionLink("Modifica", "Modifica", "FattureAcquisto", new { id = documento.Id }, new { @class = "btn btn-primary" })
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("CestinaDocumento", "FattureAcquisto", new { id = documento.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger">Cestina</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

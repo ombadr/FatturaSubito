@@ -1,0 +1,334 @@
+﻿@model FatturaSubito.Models.FatturaViewModel
+@{
+    ViewBag.Title = "Aggiungi";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+
+
+<main class="content p-0">
+    <div class="container-fluid p-0">
+        <div class="row justify-content-center">
+            @*-----MOBILE FORM-----*@
+            <div class="col-12 form-tablet-mobile pe-5">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Documento.Tipo)
+
+                    <div class="d-flex justify-content-between">
+                        <div class="mb-3">
+                            <h4 class="text-secondary">I miei dati:</h4>
+                            <p class="m-0">@Model.Utente.Nome @Model.Utente.Cognome</p>
+                            <p class="m-0">@Model.Utente.NomeAzienda</p>
+                            <p class="m-0">@Model.Utente.Indirizzo</p>
+                            <p class="m-0">@Model.Utente.CAP @Model.Utente.Comune @Model.Utente.Provincia</p>
+                            <p class="m-0">P.IVA: @Model.Utente.PartitaIVA</p>
+                            <p class="m-0">C.F.: @Model.Utente.CodiceFiscale</p>
+                        </div>
+                        <div>
+                            <img src="@Url.Content(@Model.Utente.Logo)" alt="User Logo" style="width: 150px;" />
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Documento.Numero, "Numero Fattura", new { @class = "mb-2" })
+                        @Html.EditorFor(model => model.Documento.Numero, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Documento.Numero)
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Documento.Data, "Data Fattura", new { @class = "mb-2" })
+                        @Html.EditorFor(model => model.Documento.Data, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        @Html.ValidationMessageFor(model => model.Documento.Data)
+
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Documento.ClienteId, "Fatturare a", new { @class = "mb-2" })
+                        @Html.DropDownListFor(model => model.Documento.ClienteId, (SelectList)ViewBag.ClienteId, "Seleziona un cliente", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Documento.ClienteId)
+                    </div>
+
+                    <div style="display:none;" class="mb-3 datiCliente">
+                        <p class="m-0"><span class="clienteNome"></span> <span class="clienteCognome"></span></p>
+                        <p class="m-0"><span class="clienteNomeAzienda"></span></p>
+                        <p class="m-0"><span class="clienteIndirizzo"></span></p>
+                        <p class="m-0"><span class="clienteIndirizzo"></span></p>
+                        <p class="m-0"><span class="clienteCAP"></span> <span class="clienteComune"></span> <span class="clienteProvincia"></span></p>
+                        <p class="m-0">P.IVA: <span class="clientePartitaIVA"></span></p>
+                        <p class="m-0">C.F.: <span class="clienteCodiceFiscale"></span></p>
+                    </div>
+
+                    <div id="containerRigheDocumento"></div>
+                    <button type="button" class="btn btn-primary" id="aggiungiRigaMobile">Aggiungi Prodotto o Servizio</button>
+
+                    <div class="my-3 text-end">
+                        <h2 class="text-secondary">Totale: <span id="totaleDocumentoMobile">0</span> €</h2>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Documento.TerminiCondizioni, "Termini e Condizioni")
+                        @Html.TextAreaFor(model => model.Documento.TerminiCondizioni, new { @class = "form-control", rows = 3 })
+                        @Html.ValidationMessageFor(model => model.Documento.TerminiCondizioni)
+                    </div>
+                    <div class="mt-3">
+                        <input type="submit" value="Crea Fattura" class="btn btn-primary" />
+                    </div>
+
+                }
+            </div>
+
+            @*-----DESKTOP FORM-----*@
+
+            <div class="col-12 col-xxl-8 form-desktop">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Documento.Tipo)
+                    <div class="text-center mb-3">
+                        <input type="submit" value="Crea Fattura" class="btn btn-primary" />
+                    </div>
+                    <div class="card" style="width: 794px; height: 1123px; margin: auto;">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">FATTURA DI VENDITA</h3>
+                        </div>
+                        <div class="card-body d-flex flex-column flex-grow-1 desktop">
+                            <div class="d-flex justify-content-between mb-5">
+                                <div>
+                                    <p class="m-0">@Model.Utente.Nome @Model.Utente.Cognome</p>
+                                    <p class="m-0">@Model.Utente.NomeAzienda</p>
+                                    <p class="m-0">@Model.Utente.Indirizzo</p>
+                                    <p class="m-0">@Model.Utente.CAP @Model.Utente.Comune @Model.Utente.Provincia</p>
+                                    <p class="m-0">P.IVA: @Model.Utente.PartitaIVA</p>
+                                    <p class="m-0">C.F.: @Model.Utente.CodiceFiscale</p>
+                                </div>
+                                <div class="me-5">
+                                    <img src="@Url.Content(@Model.Utente.Logo)" alt="User Logo" style="width: 150px;" />
+                                </div>
+
+                            </div>
+                            <div class="d-flex justify-content-between mb-5">
+                                <div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Documento.ClienteId, "Fatturare a", new { @class = "mb-2" })
+                                        @Html.DropDownListFor(model => model.Documento.ClienteId, (SelectList)ViewBag.ClienteId, "Seleziona un cliente", new { @class = "form-control mb-3" })
+                                        @Html.ValidationMessageFor(model => model.Documento.ClienteId)
+                                    </div>
+
+                                    <div style="display:none;" class="datiCliente">
+                                        <p class="m-0"><span class="clienteNome"></span> <span class="clienteCognome"></span></p>
+                                        <p class="m-0"><span class="clienteNomeAzienda"></span></p>
+                                        <p class="m-0"><span class="clienteIndirizzo"></span></p>
+                                        <p class="m-0"><span class="clienteCAP"></span> <span class="clienteComune"></span> <span class="clienteProvincia"></span></p>
+                                        <p class="m-0">P.IVA: <span class="clientePartitaIVA"></span></p>
+                                        <p class="m-0">C.F.: <span class="clienteCodiceFiscale"></span></p>
+                                    </div>
+
+                                </div>
+                                <div class="px-5 mt-5">
+                                    <div class="form-group mb-3">
+                                        @Html.LabelFor(model => model.Documento.Numero, "Numero Fattura")
+                                        @Html.EditorFor(model => model.Documento.Numero, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Documento.Numero)
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Documento.Data, "Data Fattura")
+                                        @Html.EditorFor(model => model.Documento.Data, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                        @Html.ValidationMessageFor(model => model.Documento.Data)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <div class="table-responsive">
+                                    <table class="table" id="righeDocumentoTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Descrizione</th>
+                                                <th>Quantità</th>
+                                                <th>Prezzo Unitario</th>
+                                                <th>Aliquota IVA</th>
+                                                <th>Elimina</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="aggiungiRiga">Aggiungi Riga</button>
+
+                            </div>
+                            <div class="text-end mb-5">
+                                <h1 class="text-secondary">Totale: <span id="totaleDocumento">0</span> €</h1>
+                            </div>
+                            <div class="mt-auto">
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    @Html.LabelFor(model => model.Documento.TerminiCondizioni, "Termini e Condizioni")
+                                    @Html.TextAreaFor(model => model.Documento.TerminiCondizioni, new {@class = "form-control", rows = 5})
+                                    @Html.ValidationMessageFor(model => model.Documento.TerminiCondizioni)
+                                </div>
+                                @*<p style="margin-bottom: 10px">
+                                    Operazione in franchigia da IVA ai sensi delle legge 190 del 23 Dicembre 2014 art. 1 commi da 54 a 89.
+                                    Operazione effettuata ai sensi dell’ art. 1. commi da 54 a 89 della Legge n. 190/2014- Regime forfettario.
+                                    Il compenso non è soggetto a ritenute d’ acconto ai sensi della legge 190 del 23 Dicembre 2014 art. 1 comma 67.
+                                </p>
+                                <p>
+                                    Assolvimento dell'imposta di bollo ai sensi dell'articolo 6, comma 2, del D.M. 17 giugno 2014
+                                </p>*@
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+@section Scripts {
+
+    <script>
+
+        // aggiungi righe mobile
+
+        function aggiornaTotaleMobile() {
+            var totaleGenerale = 0;
+            $('.riga-documento').each(function () {
+                var quantita = parseFloat($(this).find('input[name*="Quantita"]').val()) || 0;
+                var prezzoUnitario = parseFloat($(this).find('input[name*="PrezzoUnitario"]').val()) || 0;
+                var aliquotaIVAString = $(this).find('select[name*="AliquotaIVAId"] option:selected').text();
+                var matchIVA = aliquotaIVAString.match(/(\d+(?:\.\d+)?)%/);
+
+                var aliquotaIVA = matchIVA ? parseFloat(matchIVA[1]) : 0;
+
+                var totaleRiga = quantita * prezzoUnitario;
+                var importoIVA = totaleRiga * (aliquotaIVA / 100);
+
+                totaleGenerale += totaleRiga + importoIVA;
+            });
+            $('#totaleDocumentoMobile').text(totaleGenerale.toFixed(2));
+        }
+
+
+        $(document).ready(function () {
+            $('#aggiungiRigaMobile').click(function () {
+                var index = $('.riga-documento').length;
+                var rigaHtml = `
+            <div class="riga-documento mb-3">
+            <h3 class="text-secondary">Prodotto/servizio ${index + 1}</h3>
+                <div class="mb-2">
+                    <input type="text" name="RigheDocumento[${index}].Descrizione" placeholder="Descrizione" class="form-control" />
+                </div>
+                <div class="mb-2">
+                    <input type="number" name="RigheDocumento[${index}].Quantita" placeholder="Quantità" class="form-control" />
+                </div>
+                <div class="mb-2">
+                    <input type="text" name="RigheDocumento[${index}].PrezzoUnitario" placeholder="Prezzo Unitario" class="form-control" />
+                </div>
+                <div class="mb-2">
+                    <select name="RigheDocumento[${index}].AliquotaIVAId" class="form-control">${aliquotaIVAOptions}</select>
+                </div>
+                <button type="button" class="btn btn-danger rimuoviRiga">Elimina</button>
+            </div>`;
+                $('#containerRigheDocumento').append(rigaHtml);
+            });
+
+       
+            $('body').on('click', '.rimuoviRiga', function () {
+                $(this).closest('.riga-documento').remove();
+            });
+
+        
+            $('body').on('keyup change', '.riga-documento input, .riga-documento select', function () {
+                aggiornaTotaleMobile();
+            });
+
+            $('#aggiungiRigaMobile').click(function () {
+                aggiornaTotaleMobile();
+            });
+
+        });
+
+        function aggiornaTotale() {
+            var totale = 0;
+            $('#righeDocumentoTable tbody tr').each(function () {
+                var quantita = parseFloat($(this).find('input[name*="Quantita"]').val()) || 0;
+                var prezzoUnitario = parseFloat($(this).find('input[name*="PrezzoUnitario"]').val()) || 0;
+                var aliquotaIVAString = $(this).find('select[name*="AliquotaIVAId"] option:selected').text();
+                var matchIVA = aliquotaIVAString.match(/(\d+(?:\.\d+)?)%/);
+
+                var aliquotaIVA = matchIVA ? parseFloat(matchIVA[1]) : 0;
+
+                var totaleRiga = quantita * prezzoUnitario;
+                var importoIVA = totaleRiga * (aliquotaIVA / 100);
+
+                totale += totaleRiga + importoIVA;
+            });
+            $('#totaleDocumento').text(totale.toFixed(2));
+        }
+
+        var aliquotaIVAOptions = '@Html.Raw(new SelectList(ViewBag.AliquotaIVAId, "Value", "Text").Select(option => $"<option value=\"{option.Value}\">{HttpUtility.HtmlEncode(option.Text)}</option>").Aggregate(string.Empty, (current, next) => current + next))';
+        $(document).ready(function () {
+            aggiornaTotale();
+
+            $('body').on('keyup change', 'input[name*="Quantita"], input[name*="PrezzoUnitario"], select[name*="AliquotaIVAId"]', function () {
+                aggiornaTotale();
+            });
+
+            $('body').on('click', '.rimuoviRiga', function () {
+                $(this).closest('tr').remove();
+                aggiornaTotale();
+            });
+
+            $('#aggiungiRiga').click(function() {
+                var index = $('#righeDocumentoTable tbody tr').length;
+                var newRow = '<tr>' +
+                    '<td><input type="text" name="RigheDocumento[' + index + '].Descrizione" class="form-control" /></td>' +
+                    '<td><input type="number" name="RigheDocumento[' + index + '].Quantita" class="form-control" style="width: 100px;" /></td>' +
+                    '<td><input type="text" name="RigheDocumento[' + index + '].PrezzoUnitario" class="form-control" style="width:100px;" /></td>' +
+                    '<td><select name="RigheDocumento[' + index + '].AliquotaIVAId" class="form-control">' + aliquotaIVAOptions + '</select></td>' +
+                    '<td><button type="button" class="btn btn-danger rimuoviRiga">Elimina</button></td>' +
+                    '</tr>';
+                $('#righeDocumentoTable tbody').append(newRow);
+                aggiornaTotale();
+            });
+
+            $('body').on('click', '.rimuoviRiga', function () {
+                $(this).closest('tr').remove();
+            });
+        });
+        $('#Documento_ClienteId, #Documento_ClienteIdDesktop').change(function() {
+    var clienteId = $(this).val();
+    if(clienteId) {
+        $.getJSON('@Url.Action("DettagliCliente", "FattureVendita")', { id: clienteId }, function(data) {
+            $('.clienteNome').text(data.Nome);
+            $('.clienteCognome').text(data.Cognome);
+            $('.clienteNomeAzienda').text(data.NomeAzienda);
+            $('.clienteIndirizzo').text(data.Indirizzo);
+            $('.clienteCAP').text(data.CAP);
+            $('.clienteComune').text(data.Comune);
+            $('.clienteProvincia').text(data.Provincia);
+            $('.clientePartitaIVA').text(data.PartitaIVA);
+            $('.clienteCodiceFiscale').text(data.CodiceFiscale);
+
+            $('.desktop .clienteNome').text(data.Nome);
+            $('.desktop .clienteCognome').text(data.Cognome);
+            $('.desktop .clienteNomeAzienda').text(data.NomeAzienda);
+            $('.desktop .clienteIndirizzo').text(data.Indirizzo);
+            $('.desktop .clienteCAP').text(data.CAP);
+            $('.desktop .clienteComune').text(data.Comune);
+            $('.desktop .clienteProvincia').text(data.Provincia);
+            $('.desktop .clientePartitaIVA').text(data.PartitaIVA);
+            $('.desktop .clienteCodiceFiscale').text(data.CodiceFiscale);
+
+            $('.datiCliente').show();
+        });
+    } else {
+        $('.datiCliente').hide();
+    }
+});
+    </script>
+}

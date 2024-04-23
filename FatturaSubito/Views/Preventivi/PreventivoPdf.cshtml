@@ -1,0 +1,156 @@
+﻿@model FatturaSubito.Models.FatturaViewModel
+@{
+    ViewBag.Title = "PreventivoPdf";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <title>Preventivo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
+    <style>
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .flex-container {
+            font-size: 0;
+        }
+
+        .flex-item {
+            display: inline-block;
+            vertical-align: top;
+            font-size: 16px;
+        }
+
+            .flex-item img {
+                width: 150px;
+                margin: 0;
+            }
+    </style>
+
+</head>
+<body>
+    <h3 class="card-title mb-3">PREVENTIVO</h3>
+    <table style="width: 100%; margin-bottom: 100px; border: 1px solid transparent;">
+        <tr>
+            <td style="width: 70%; border: 1px solid transparent;">
+                <h3 class="m-0 fw-bold">@Model.Utente.NomeAzienda</h3>
+                <p class="m-0">@Model.Utente.Nome @Model.Utente.Cognome</p>
+                <p class="m-0">@Model.Utente.Indirizzo</p>
+                <p class="m-0">@Model.Utente.CAP @Model.Utente.Comune @Model.Utente.Provincia</p>
+                <p class="m-0">@Model.Utente.PartitaIVA</p>
+                <p class="m-0">@Model.Utente.CodiceFiscale</p>
+            </td>
+            <td style="width: 30%; border: 1px solid transparent;">
+                @{
+                    var logoUrl = Model.Utente.Logo;
+                    if (string.IsNullOrEmpty(logoUrl))
+                    {
+                        logoUrl = Request.Cookies["Logo"]?.Value;
+                        if (string.IsNullOrEmpty(logoUrl))
+                        {
+                            logoUrl = Url.Content(logoUrl);
+                        }
+                    }
+
+                    var domain = "https://fatturasubito.net";
+                    logoUrl = Url.Content(logoUrl);
+                    var absoluteLogoUrl = new Uri(new Uri(domain), logoUrl).AbsoluteUri;
+                }
+                <img src="@absoluteLogoUrl" alt="User Logo" style="width: 150px;" />
+            </td>
+        </tr>
+    </table>
+
+    <table style="width: 100%;margin-bottom: 100px; border: 1px solid transparent;">
+        <tr>
+            <td style="width: 70%; border: 1px solid transparent;">
+                <p class="fw-bold" style="font-weight: bold;">Fatturare a:</p>
+                <p class="m-0">@Model.Documento.Cliente.NomeAzienda</p>
+                <p class="m-0">@Model.Documento.Cliente.Nome @Model.Documento.Cliente.Cognome</p>
+                <p class="m-0">@Model.Documento.Cliente.Indirizzo</p>
+                <p class="m-0">@Model.Documento.Cliente.CAP @Model.Documento.Cliente.Comune @Model.Documento.Cliente.Provincia</p>
+                <p class="m-0">@Model.Documento.Cliente.PartitaIVA</p>
+                <p class="m-0">@Model.Documento.Cliente.CodiceFiscale</p>
+            </td>
+            <td style="width: 30%; border: 1px solid transparent;">
+                <p class="fw-bold" style="font-weight: bold;">Preventivo #: <span class="fw-light">@Model.Documento.Numero</span></p>
+                <p class="fw-bold" style="font-weight: bold;">Data Preventivo: <span class="fw-light">@Model.Documento.Data.ToString("dd/MM/yyyy")</span></p>
+            </td>
+        </tr>
+    </table>
+
+
+    <table class="table" style="width: 100%; table-layout: fixed; margin-bottom: 100px;">
+        <colgroup>
+            <col style="width: 40%;">
+            <col style="width: 10%;">
+            <col style="width: 15%;">
+            <col style="width: 15%;">
+            <col style="width: 20%;">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Descrizione</th>
+                <th>Quantità</th>
+                <th>Prezzo Unitario</th>
+                <th>Aliquota IVA</th>
+                <th>Totale</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var riga in Model.RigheDocumento)
+            {
+                <tr>
+                    <td>@riga.Descrizione</td>
+                    <td>@riga.Quantita</td>
+                    <td>@String.Format(System.Globalization.CultureInfo.GetCultureInfo("it-IT"), "{0:C}", riga.PrezzoUnitario)</td>
+                    <td>@riga.AliquotaIVA.Descrizione</td>
+                    <td>@String.Format(System.Globalization.CultureInfo.GetCultureInfo("it-IT"), "{0:C}", riga.Totale)</td>
+                </tr>
+            }
+            <tr>
+                <td class="fw-bold" colspan="4">TOTALE</td>
+                <td>@String.Format(System.Globalization.CultureInfo.GetCultureInfo("it-IT"), "{0:C}", Model.RigheDocumento.Sum(rd => rd.Totale))</td>
+            </tr>
+        </tbody>
+    </table>
+
+    @if (!String.IsNullOrEmpty(Model.Documento.TerminiCondizioni))
+    {
+        <div style="position: absolute; bottom: 0; width: 100%; background-color: #f2f2f2; padding: 15px;">
+            <p class="fw-bold" style="font-weight: bold;">Termini e Condizioni</p>
+            <p class="mb-2">@Html.Raw(Model.Documento.TerminiCondizioni)</p>
+        </div>
+    }
+</body>
+</html>
+

@@ -1,0 +1,45 @@
+﻿@model FatturaSubito.Models.Utente
+@{
+    ViewBag.Title = "Il Mio Profilo";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+
+
+    <div class="container-fluid p-0">
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-xl-6">
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Il Mio Profilo</h5>
+                        <a class="btn btn-primary" href="@Url.Action("Modifica", "Profilo")">Modifica Profilo</a>
+                    </div>
+                    <div class="card-body text-center d-flex flex-column align-items-center">
+                        <div class="rounded-circle d-flex justify-content-center mb-2" style="width: 128px; height: 128px; overflow: hidden;">
+                            <img src="@Url.Content(Model.Logo)" alt="User Logo" class="img-fluid object-fit-cover" style="width: 100%; height: 100%;" />
+                        </div>
+
+                        <h5 class="card-title mb-0">@Model.Nome @Model.Cognome</h5>
+                        <div class="text-muted mb-2">Azienda: @Model.NomeAzienda</div>
+
+                
+                    </div>
+                    <hr class="my-0" />
+                    <div class="card-body">
+                        <h5 class="h6 card-title">I Miei Dati</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-1"><span data-feather="briefcase" class="feather-sm me-1"></span> Partiva IVA <a href="#">@Model.PartitaIVA</a></li>
+                            <li class="mb-1"><span data-feather="user" class="feather-sm me-1"></span> Codice Fiscale <a href="#">@Model.CodiceFiscale</a></li>
+                            <li class="mb-1"><span data-feather="mail" class="feather-sm me-1"></span> Email <a href="#">@Model.Email</a></li>
+                            <li class="mb-1"><span data-feather="map-pin" class="feather-sm me-1"></span> Indirizzo <a href="#">@Model.Indirizzo</a></li>
+                            <li class="mb-1"><span data-feather="map" class="feather-sm me-1"></span> Comune - Provincia - CAP <a href="#">@Model.Comune - @Model.Provincia - @Model.CAP</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+           </div>
+        </div>
+
+ 

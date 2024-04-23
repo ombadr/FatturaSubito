@@ -1,0 +1,72 @@
+﻿@model IEnumerable<FatturaSubito.Models.Utente>
+@{
+    ViewBag.Title = "GestioneUtenti";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Gestione Utenti</h2>
+
+<div class="table-responsive">
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Nome Azienda</th>
+                <th>Partita IVA</th>
+                <th>Codice Fiscale</th>
+                <th>Email</th>
+                <th>Indirizzo</th>
+                <th>Comune</th>
+                <th>Provincia</th>
+                <th>CAP</th>
+                <th>Logo</th>
+                <th>Attivo</th>
+                <th>Ruolo</th>
+                <th>Gestisci Utente</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var utente in Model)
+            {
+                <tr>
+                    <td>@utente.Nome</td>
+                    <td>@utente.Cognome</td>
+                    <td>@utente.NomeAzienda</td>
+                    <td>@utente.PartitaIVA</td>
+                    <td>@utente.CodiceFiscale</td>
+                    <td>@utente.Email</td>
+                    <td>@utente.Indirizzo</td>
+                    <td>@utente.Comune</td>
+                    <td>@utente.Provincia</td>
+                    <td>@utente.CAP</td>
+
+                    <td class="align-middle">
+                        @if (utente.Logo != null)
+                        {
+                            <img src="@Url.Content(utente.Logo)" alt="Logo Utente" style="max-width: 150px; max-height: 150px;" />
+                        }
+                        else
+                        {
+                            <p>Nessun logo</p>
+                        }
+                    </td>
+                    <td>@(utente.Attivo ? "Si" : "No")</td>
+                    <td>@utente.Ruolo</td>
+
+                    <td>
+                        @using (Html.BeginForm(utente.Attivo ? "BloccaUtente" : "SbloccaUtente", "Amministrazione", new { id = utente.UtenteId }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn @(utente.Attivo ? "btn-danger" : "btn-success")" onclick="return confirm('Sei sicuro di voler @(utente.Attivo ? "bloccare" : "sbloccare") questo utente?');">
+                                @(utente.Attivo ? "Blocca" : "Sblocca")
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

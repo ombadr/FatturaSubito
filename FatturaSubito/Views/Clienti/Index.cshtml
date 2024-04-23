@@ -1,0 +1,49 @@
+﻿@model IEnumerable<FatturaSubito.Models.Cliente>
+@{
+    ViewBag.Title = "Lista Clienti";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Lista Clienti</h2>
+
+<div class="table-responsive">
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Nome Azienda</th>
+                <th>Partita IVA</th>
+                <th>Codice Fiscale</th>
+                <th>Email</th>
+                <th>Indirizzo</th>
+                <th>Comune</th>
+                <th>Provincia</th>
+                <th>CAP</th>
+                <th>Modifica Cliente</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in Model)
+            {
+                <tr>
+                    <td>@cliente.Nome</td>
+                    <td>@cliente.Cognome</td>
+                    <td>@cliente.NomeAzienda</td>
+                    <td>@cliente.PartitaIVA</td>
+                    <td>@cliente.CodiceFiscale</td>
+                    <td>@cliente.Email</td>
+                    <td>@cliente.Indirizzo</td>
+                    <td>@cliente.Comune</td>
+                    <td>@cliente.Provincia</td>
+                    <td>@cliente.CAP</td>
+                    <td>
+                        @Html.ActionLink("Modifica", "Modifica", "Clienti", new { id = cliente.ClienteId }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

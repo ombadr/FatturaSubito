@@ -1,0 +1,190 @@
+﻿@model FatturaSubito.Models.AdminDashboardViewModel
+@{
+    ViewBag.Title = "Amministrazione";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+
+<div class="container-fluid p-0">
+    <h1 class="h3 mb-3"><strong>Report Applicazione</strong> Dashboard</h1>
+
+    <div class="row">
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Numero Fatture di Vendita Clienti</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="stat text-primary">
+                                <i class="align-middle" data-feather="hash"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="mt-1 mb-3">@Html.DisplayFor(model => model.NumeroFattureEmesse)</h1>
+                    <div class="mb-0">
+                        @*<span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+                        <span class="text-muted">Since last week</span>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Fatturato Clienti</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="stat text-primary">
+                                <i class="align-middle" data-feather="arrow-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="mt-1 mb-3">@Html.DisplayFor(model => model.TotaleValoreFatture)</h1>
+                    <div class="mb-0">
+                        @*<span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+                        <span class="text-muted">Since last week</span>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Numero Fatture Acquisti Clienti</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="stat text-primary">
+                                <i class="align-middle" data-feather="shopping-bag"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="mt-1 mb-3">@Html.DisplayFor(model => model.NumeroFattureAcquisto)</h1>
+                    <div class="mb-0">
+                        @*<span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+                        <span class="text-muted">Since last week</span>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Numero Preventivi Clienti</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="stat text-primary">
+                                <i class="align-middle" data-feather="crosshair"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="mt-1 mb-3">@Html.DisplayFor(model => model.NumeroPreventivi)</h1>
+                    <div class="mb-0">
+                        @*<span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+                        <span class="text-muted">Since last week</span>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Totale Valore Preventivi Clienti</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="stat text-primary">
+                                <i class="align-middle" data-feather="shopping-cart"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="mt-1 mb-3">@Html.DisplayFor(model => model.TotaleValorePreventivi)</h1>
+                    <div class="mb-0">
+                        @*<span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+                        <span class="text-muted">Since last week</span>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Numero Bolle di Trasporto Clienti</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="stat text-primary">
+                                <i class="align-middle" data-feather="truck"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="mt-1 mb-3">@Html.DisplayFor(model => model.NumeroBolleDiTrasporto)</h1>
+                    <div class="mb-0">
+                        @*<span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+                        <span class="text-muted">Since last week</span>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Totale Numero Utenti</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="stat text-primary">
+                                <i class="align-middle" data-feather="users"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="mt-1 mb-3">@Html.DisplayFor(model => model.TotaleNumeroUtenti)</h1>
+                    <div class="mb-0">
+                        @*<span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+                        <span class="text-muted">Since last week</span>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Utenti Iscritti Oggi</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="stat text-primary">
+                                <i class="align-middle" data-feather="user-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="mt-1 mb-3">@Html.DisplayFor(model => model.UtentiIscrittiOggi)</h1>
+                    <div class="mb-0">
+                        @*<span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
+                        <span class="text-muted">Since last week</span>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

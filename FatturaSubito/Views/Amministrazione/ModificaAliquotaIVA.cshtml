@@ -1,0 +1,28 @@
+﻿@model FatturaSubito.Models.AliquotaIVA
+@{
+    ViewBag.Title = "Modifica Aliquota IVA";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Modifica Aliquota IVA</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.AliquotaIVAId)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Descrizione)
+        @Html.TextBoxFor(m => m.Descrizione, new {@class ="form-control" })
+        @Html.ValidationMessageFor(m => m.Descrizione)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ValorePercentuale)
+        @Html.TextBoxFor(m => m.ValorePercentuale, new  {@class="form-control" })
+        @Html.ValidationMessageFor(m => m.ValorePercentuale)
+    </div>
+
+    <button type="submit" class="btn btn-primary my-3">Salva Modifiche</button>
+
+}

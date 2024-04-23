@@ -1,0 +1,75 @@
+﻿@model FatturaSubito.Models.Cliente
+@{
+    ViewBag.Title = "Modifica Cliente";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Modifica Cliente</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ClienteId)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Nome)
+        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Nome, "", new {@class ="text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Cognome)
+        @Html.TextBoxFor(m => m.Cognome, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Cognome, "", new {@class ="text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.NomeAzienda)
+        @Html.TextBoxFor(m => m.NomeAzienda, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.NomeAzienda, "", new {@class ="text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PartitaIVA)
+        @Html.TextBoxFor(m => m.PartitaIVA, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.PartitaIVA, "", new {@class ="text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CodiceFiscale)
+        @Html.TextBoxFor(m => m.CodiceFiscale, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CodiceFiscale, "", new {@class ="text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Email, "", new {@class ="text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Indirizzo)
+        @Html.TextBoxFor(m => m.Indirizzo, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Indirizzo, "", new {@class ="text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Comune)
+        @Html.TextBoxFor(m => m.Comune, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Comune, "", new {@class ="text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Provincia)
+        @Html.TextBoxFor(m => m.Provincia, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Provincia, "", new {@class ="text-danger"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CAP)
+        @Html.TextBoxFor(m => m.CAP, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CAP, "", new {@class ="text-danger"})
+    </div>
+
+    <button type="submit" class="btn btn-primary my-3">Salva Modifiche</button>
+}
